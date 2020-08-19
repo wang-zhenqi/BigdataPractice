@@ -1,6 +1,10 @@
+import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -67,7 +71,8 @@ public class HdfsOperation {
 
     /**
      * 将HDFS上的文件复制到本地目录
-     * @param src 源文件路径
+     *
+     * @param src  源文件路径
      * @param dest 目标文件的本地路径
      * @throws IOException 当文件系统操作出现异常时，抛出
      */
@@ -93,6 +98,7 @@ public class HdfsOperation {
 
     /**
      * 删除指定文件及其下子文件
+     *
      * @param dest 目标文件
      * @throws IOException 抛出异常
      */
@@ -120,7 +126,8 @@ public class HdfsOperation {
 
     /**
      * 重命名指定文件
-     * @param src 源文件
+     *
+     * @param src  源文件
      * @param dest 目标文件
      * @throws IOException 抛出异常
      */
@@ -150,6 +157,7 @@ public class HdfsOperation {
     public static void listFiles(String dest) throws IOException, URISyntaxException {
         //获取文件系统
         Configuration configuration = new Configuration();
+        //另一种获取FileSystem的方式，具体见get的方法说明
         FileSystem fileSystem = FileSystem.get(
                 new URI("hdfs://knot1:8020"),
                 configuration);
@@ -175,6 +183,74 @@ public class HdfsOperation {
             }
         }
 
+        fileSystem.close();
+    }
+
+    /**
+     * 将文件通过IO流上传至HDFS
+     *
+     * @param filename 待读取的文件名（本地文件）
+     * @param dest     目标地址（HDFS地址）
+     * @throws IOException 抛出异常
+     */
+    public static void putFileToHDFS(String filename, String dest) throws IOException {
+        Configuration configuration = new Configuration();
+        configuration.set("fs.defaultFS", "hdfs://knot1:8020");
+        configuration.set("dfs.client.use.datanode.hostname", "true");
+        FileSystem fileSystem = FileSystem.get(configuration);
+
+        //标准文件输入流
+        FileInputStream fis = new FileInputStream(new File(filename));
+
+        //HDFS文件输出流
+        FSDataOutputStream fos = fileSystem.create(new Path(dest));
+
+        byte[] block = new byte[1024];
+        int len;
+        while((len = fis.read(block)) != -1) {
+            fos.write(block, 0, len);
+            fos.flush();
+        }
+        fis.close();
+        fos.close();
+        fileSystem.close();
+    }
+
+    public static void getFileFromHDFS(String src, String filename) throws IOException {
+        Configuration configuration = new Configuration();
+        configuration.set("fs.defaultFS", "hdfs://knot1:8020");
+        configuration.set("dfs.client.use.datanode.hostname", "true");
+
+        FileSystem fileSystem = FileSystem.get(configuration);
+        FSDataInputStream fis = fileSystem.open(new Path(src));
+
+        FileOutputStream fos = new FileOutputStream(new File(filename));
+
+        IOUtils.copy(fis, fos);
+        IOUtils.closeQuietly(fis);
+        IOUtils.closeQuietly(fos);
+        fileSystem.close();
+    }
+
+    public static void mergeFile(String localDir, String dest) throws IOException {
+        Configuration configuration = new Configuration();
+        configuration.set("fs.defaultFS", "hdfs://knot1:8020");
+        configuration.set("dfs.client.use.datanode.hostname", "true");
+
+        FileSystem fileSystem = FileSystem.get(configuration);
+        FSDataOutputStream fsDataOutputStream = fileSystem.create(new Path(dest));
+
+        LocalFileSystem localFileSystem = FileSystem.getLocal(new Configuration());
+
+        FileStatus[] fileStatuses = localFileSystem.listStatus(new Path(localDir));
+        for(FileStatus fileStatus : fileStatuses) {
+            Path path = fileStatus.getPath();
+            FSDataInputStream fsDataInputStream = localFileSystem.open(path);
+            IOUtils.copy(fsDataInputStream, fsDataOutputStream);
+            IOUtils.closeQuietly(fsDataInputStream);
+        }
+        IOUtils.closeQuietly(fsDataOutputStream);
+        localFileSystem.close();
         fileSystem.close();
     }
 }
