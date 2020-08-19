@@ -154,6 +154,13 @@ public class HdfsOperation {
         fileSystem.close();
     }
 
+    /**
+     * 获取HDFS上指定文件的状态
+     *
+     * @param dest 指定的文件
+     * @throws IOException 抛出异常
+     * @throws URISyntaxException 抛出异常
+     */
     public static void listFiles(String dest) throws IOException, URISyntaxException {
         //获取文件系统
         Configuration configuration = new Configuration();
@@ -216,14 +223,24 @@ public class HdfsOperation {
         fileSystem.close();
     }
 
+    /**
+     * 通过IO流从HDFS上获取文件内容
+     *
+     * @param src HDFS上的文件地址
+     * @param filename 本地的接收文件名
+     * @throws IOException 抛出异常
+     */
     public static void getFileFromHDFS(String src, String filename) throws IOException {
         Configuration configuration = new Configuration();
         configuration.set("fs.defaultFS", "hdfs://knot1:8020");
         configuration.set("dfs.client.use.datanode.hostname", "true");
 
         FileSystem fileSystem = FileSystem.get(configuration);
+
+        //FS数据输入流
         FSDataInputStream fis = fileSystem.open(new Path(src));
 
+        //文件输出流
         FileOutputStream fos = new FileOutputStream(new File(filename));
 
         IOUtils.copy(fis, fos);
@@ -232,19 +249,30 @@ public class HdfsOperation {
         fileSystem.close();
     }
 
+    /**
+     * 将本地指定路径下的小文件合并到HDFS上的一个文件
+     *
+     * @param localDir 本地路径
+     * @param dest 目标文件名
+     * @throws IOException 抛出异常
+     */
     public static void mergeFile(String localDir, String dest) throws IOException {
         Configuration configuration = new Configuration();
         configuration.set("fs.defaultFS", "hdfs://knot1:8020");
         configuration.set("dfs.client.use.datanode.hostname", "true");
 
         FileSystem fileSystem = FileSystem.get(configuration);
+        //FS数据输出流
         FSDataOutputStream fsDataOutputStream = fileSystem.create(new Path(dest));
 
+        //本地文件系统
         LocalFileSystem localFileSystem = FileSystem.getLocal(new Configuration());
-
+        //获取该路径下的文件状态
         FileStatus[] fileStatuses = localFileSystem.listStatus(new Path(localDir));
         for(FileStatus fileStatus : fileStatuses) {
             Path path = fileStatus.getPath();
+            //FS数据输入流
+            //由此可见FSDataInputStream可以接收本地文件系统的数据，也可接收HDFS的数据
             FSDataInputStream fsDataInputStream = localFileSystem.open(path);
             IOUtils.copy(fsDataInputStream, fsDataOutputStream);
             IOUtils.closeQuietly(fsDataInputStream);

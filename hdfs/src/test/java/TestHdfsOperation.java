@@ -17,13 +17,13 @@ public class TestHdfsOperation {
 
     @Test
     public void testDownloadFile() throws IOException {
-        HdfsOperation.downloadFile("/hdfs/practice/mergedFile",
-                "/Users/zhenqi/IdeaProjects/BigData/operationFiles/mergedFile.txt");
+        HdfsOperation.downloadFile("/hdfs/practice/mergedFile_1",
+                "/Users/zhenqi/IdeaProjects/BigData/data/mergedFile_1.txt");
     }
 
     @Test
     public void testDeleteFile() throws IOException {
-        HdfsOperation.deleteFile("/hdfs/practice/lectureNote.txt");
+        HdfsOperation.deleteFile("/hdfs/practice/mergedFile_1");
     }
 
     @Test
@@ -34,7 +34,7 @@ public class TestHdfsOperation {
 
     @Test
     public void testListFiles() throws IOException, URISyntaxException {
-        HdfsOperation.listFiles("/hdfs");
+        HdfsOperation.listFiles("/hdfs/practice");
     }
 
     @Test
@@ -49,7 +49,7 @@ public class TestHdfsOperation {
 
     @Test
     public void testMergeFile() throws IOException {
-        HdfsOperation.mergeFile("file:///Users/zhenqi/IdeaProjects/BigData/operationFiles/littleFiles",
-                "hdfs://knot1:8020/hdfs/practice/mergedFile");
+        HdfsOperation.mergeFile("/Users/zhenqi/IdeaProjects/BigData/data/littleFiles",
+                "hdfs://knot1:8020/hdfs/practice/mergedFile_1");
     }
 }

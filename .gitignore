@@ -24,7 +24,7 @@ hs_err_pid*
 .idea/
 target/
 out/
-operationFiles/
+data/
 
 # MacOS system file
 .DS_Store
