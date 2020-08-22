@@ -158,7 +158,7 @@ public class HdfsOperation {
      * 获取HDFS上指定文件的状态
      *
      * @param dest 指定的文件
-     * @throws IOException 抛出异常
+     * @throws IOException        抛出异常
      * @throws URISyntaxException 抛出异常
      */
     public static void listFiles(String dest) throws IOException, URISyntaxException {
@@ -226,7 +226,7 @@ public class HdfsOperation {
     /**
      * 通过IO流从HDFS上获取文件内容
      *
-     * @param src HDFS上的文件地址
+     * @param src      HDFS上的文件地址
      * @param filename 本地的接收文件名
      * @throws IOException 抛出异常
      */
@@ -253,7 +253,7 @@ public class HdfsOperation {
      * 将本地指定路径下的小文件合并到HDFS上的一个文件
      *
      * @param localDir 本地路径
-     * @param dest 目标文件名
+     * @param dest     目标文件名
      * @throws IOException 抛出异常
      */
     public static void mergeFile(String localDir, String dest) throws IOException {
