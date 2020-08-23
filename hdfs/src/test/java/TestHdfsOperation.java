@@ -34,7 +34,7 @@ public class TestHdfsOperation {
 
     @Test
     public void testListFiles() throws IOException, URISyntaxException {
-        HdfsOperation.listFiles("/hdfs/practice");
+        HdfsOperation.listFiles("/mr-data/wordcount/outputs/PrideAndPrejudice");
     }
 
     @Test
@@ -44,7 +44,7 @@ public class TestHdfsOperation {
 
     @Test
     public void testGetFileFromHDFS() throws IOException {
-        HdfsOperation.getFileFromHDFS("/hdfs/practice/lectureNote.txt", "../operationFiles/note2.txt");
+        HdfsOperation.getFileFromHDFS("/mr-data/wordcount/outputs/PrideAndPrejudice/part-r-00000", "../data/mr/wordcount/output/prideandprejudice.txt");
     }
 
     @Test
