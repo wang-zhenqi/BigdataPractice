@@ -177,17 +177,10 @@ public class HdfsOperation {
         while(listFiles.hasNext()) {
             LocatedFileStatus status = listFiles.next();
 
-            System.out.print(status.getPath().getName() + "\t");
+            System.out.print(status.getPath() + "\t");
             System.out.print(status.getLen() + "B\t");
             System.out.print(status.getPermission() + "\t");
-            System.out.print(status.getGroup() + "\t@{");
-            BlockLocation[] blockLocations = status.getBlockLocations();
-            for(BlockLocation blockLocation : blockLocations) {
-                String[] hosts = blockLocation.getHosts();
-                for(int i = 0; i < hosts.length; i++) {
-                    System.out.print(hosts[i] + (i < hosts.length - 1 ? ", " : "}\n"));
-                }
-            }
+            System.out.println(status.getGroup());
         }
 
         fileSystem.close();

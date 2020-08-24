@@ -47,7 +47,10 @@ public class WordCount extends Configured implements Tool {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
 
-        //第三步至第六步均省略
+        //第三步分区和第四步排序可省略
+        //第五步组合适用于单词计数的程序，使用它可以减少MapTask落盘以及向ReduceTask传输的数据量
+        //Combiner的本质也是reduce，需要继承Reducer类，在这个程序中，可以直接使用MyReducer即可
+        job.setCombinerClass(MyReducer.class);
 
         //第七步：自定义reduce逻辑
         job.setReducerClass(MyReducer.class);

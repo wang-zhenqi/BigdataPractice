@@ -41,7 +41,7 @@ public class MyRecordReader extends RecordReader<NullWritable, BytesWritable> {
      * 如果返回true，表示文件已经读取完成，不用再继续往下读了；否则就还未完成，继续读下一行
      *
      * @return boolean类型返回值，指示文件是否读取完成。
-     * @throws IOException          抛出异常
+     * @throws IOException 抛出异常
      */
     @Override
     public boolean nextKeyValue() throws IOException {
@@ -93,7 +93,6 @@ public class MyRecordReader extends RecordReader<NullWritable, BytesWritable> {
 
     /**
      * 关闭资源，在此应用中不需做什么操作。
-     *
      */
     @Override
     public void close() {

@@ -25,10 +25,10 @@ public class FlowReducer extends Reducer<Text, FlowBean, Text, Text> {
     /**
      * reduce逻辑。统计每个手机号的流量总量。
      *
-     * @param key key_in，手机号
-     * @param values value_in，流量记录的集合
+     * @param key     key_in，手机号
+     * @param values  value_in，流量记录的集合
      * @param context 上下文
-     * @throws IOException 抛出异常
+     * @throws IOException          抛出异常
      * @throws InterruptedException 抛出异常
      */
     @Override

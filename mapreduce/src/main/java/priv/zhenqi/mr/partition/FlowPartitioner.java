@@ -5,6 +5,11 @@ import org.apache.hadoop.mapreduce.Partitioner;
 
 public class FlowPartitioner extends Partitioner<Text, FlowBean> {
     private static final int PARTITION_NUM = 6;
+
+    public static int getNumOfPartition() {
+        return PARTITION_NUM;
+    }
+
     @Override
     public int getPartition(Text text, FlowBean flowBean, int i) {
         String phoneNum = text.toString();
@@ -25,9 +30,5 @@ public class FlowPartitioner extends Partitioner<Text, FlowBean> {
         } else {
             return 5;
         }
-    }
-
-    public static int getNumOfPartition() {
-        return PARTITION_NUM;
     }
 }

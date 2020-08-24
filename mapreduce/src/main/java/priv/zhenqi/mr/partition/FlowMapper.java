@@ -27,10 +27,10 @@ public class FlowMapper extends Mapper<LongWritable, Text, Text, FlowBean> {
     /**
      * map逻辑。将读入的流量记录拆分，电话号码字段作为key_out，流量信息包装在FlowBean中作为value_out。
      *
-     * @param key key_in，代表记录文件中的行号，在这里没有用到。
-     * @param value value_in，每一行的文件内容。
+     * @param key     key_in，代表记录文件中的行号，在这里没有用到。
+     * @param value   value_in，每一行的文件内容。
      * @param context 上下文。
-     * @throws IOException 抛出异常
+     * @throws IOException          抛出异常
      * @throws InterruptedException 抛出异常
      */
     @Override
