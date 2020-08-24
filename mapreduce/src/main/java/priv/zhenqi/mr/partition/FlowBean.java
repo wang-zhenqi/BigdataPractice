@@ -9,6 +9,9 @@ import java.io.IOException;
 /**
  * FlowBean类是Mapper的value_out的类型，也是Paritioner的输入value。于是需要实现
  * {@link Writable}接口来实现数据的序列化与反序列化。
+ * 注意：当使用JavaBean作为value数据时，实现Writable接口即可，但是如果作为key数据，则需要实现
+ * {@link org.apache.hadoop.io.WritableComparable}接口，这是由于key涉及到MapReduce
+ * 中排序的问题。
  */
 public class FlowBean implements Writable {
     private Integer upCountFlow = 0;
