@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class TestHdfsOperation {
+    private final String DATA_ROOT = "/Users/zhenqi/IdeaProjects/BigData/data";
+
     @Test
     public void testMkdir() throws IOException {
         HdfsOperation.mkdir("/hdfs/practice");
@@ -17,8 +19,8 @@ public class TestHdfsOperation {
 
     @Test
     public void testDownloadFile() throws IOException {
-        HdfsOperation.downloadFile("/hdfs/practice/mergedFile_1",
-                "/Users/zhenqi/IdeaProjects/BigData/data/mergedFile_1.txt");
+        HdfsOperation.downloadFile("/mr-data/grouping/outputs/top2",
+                DATA_ROOT + "/mr/grouping/top2");
     }
 
     @Test
