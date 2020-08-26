@@ -9,7 +9,6 @@ import java.io.IOException;
 /**
  * 这个JavaBean类是用于包装订单数据的各字段的。由于需要将各订单记录二次排序，因此需要将每一条记录都
  * 包装起来，作为Mapper的key_out，也会在之后的分区、排序、分组的过程中使用到此类。
- *
  */
 public class OrderBean implements WritableComparable<OrderBean> {
     private String orderId;

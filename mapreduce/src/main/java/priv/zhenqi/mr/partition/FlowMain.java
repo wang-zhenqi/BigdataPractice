@@ -27,6 +27,8 @@ import org.apache.hadoop.util.ToolRunner;
 public class FlowMain extends Configured implements Tool {
     public static void main(String[] args) throws Exception {
         Configuration configuration = new Configuration();
+        //以下的两行配置是用来设置本地模式运行的，程序会直接在本地机器运行，而不是提交任务到
+        //YARN上，这样便于调试。
         //configuration.set("mapreduce.framework.name","local");
         //configuration.set("yarn.resourcemanager.hostname","local");
 

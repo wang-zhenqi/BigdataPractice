@@ -16,14 +16,14 @@ import org.apache.hadoop.util.ToolRunner;
  * 订单记录的样本数据如下：
  * 订单号            产品编号  价格
  * Order_0000001	Pdt_01	222.8
- *
+ * <p>
  * 这就涉及到二次排序，除了要按订单号排序，还需要对价格也进行排序，于是就引入{@link OrderBean}类将
  * 订单号与价格包装在一起。以OrderBean作为Mapper的key_out。
- *
+ * <p>
  * 但是根据需求，同一笔订单的记录应该被分在同一个分区，乃至同一个分组，因此在分区和分组的操作中不能用
  * OrderBean作为依据，而是要用订单号。于是还要定义{@link GroupPartitioner}和{@link MyGroup}
  * 两个类。
- *
+ * <p>
  * 在输出时，由{@link GroupReducer}负责输出前N个记录。
  */
 public class GroupMain extends Configured implements Tool {
